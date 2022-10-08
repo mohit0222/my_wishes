@@ -68,6 +68,7 @@
         android:maxLines="1"
         android:imeOptions="actionNext"
         android:padding="10dp"
+        tools:ignore="test"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text"/>
 
