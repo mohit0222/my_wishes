@@ -26,4 +26,25 @@ object ValidationUtils {
         }
         return false
     }
+
+    fun CheckNameIsValid(name: String): Boolean {
+        if (!name.isEmpty()) {
+            return true
+        }
+        return false
+    }
+
+    fun checkNumberIsValid(number: String): Boolean {
+        if (!number.isEmpty()) {
+            return true
+        }
+        return false
+    }
+
+    fun checkCPasswordIsValid(confirmPass: String): Boolean {
+        if (!confirmPass.isEmpty()) {
+            return true
+        }
+        return false
+    }
 }

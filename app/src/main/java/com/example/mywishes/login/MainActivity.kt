@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.mywishes.SignUpActivity
 import com.example.mywishes.databinding.ActivityMainBinding
+import com.example.mywishes.signUp.SignUpActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
 
 
         observeLiveData()
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     fun observeLiveData() {
 
-        loginViewModel.onErrorLiveData?.observe(this, Observer {
+        loginViewModel.onErrorLiveData.observe(this, Observer {
             if (it == EMAIL_VALIDATION_FAILED) {
                 Toast.makeText(this, "Please enter Email", Toast.LENGTH_SHORT).show()
             } else if (it == PASSWORD_VALIDATION_FAILED) {
