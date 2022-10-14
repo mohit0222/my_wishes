@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
 
+        binding.edt1.setText("mohitdhiman701@gmail.com")
+        binding.edt2.setText("Mohit@123")
 
         observeLiveData()
 
@@ -49,9 +51,14 @@ class MainActivity : AppCompatActivity() {
 
         loginViewModel.validationComplete.observe(this, Observer {
             if (it) {
-                val intent = Intent(this, SignUpActivity::class.java)
-                startActivity(intent)
+                val email = binding.edt1.text.toString()
+                val password = binding.edt2.text.toString()
+                loginViewModel?.dologin(email, password)
             }
+        })
+
+        loginViewModel.loginResponse.observe(this, Observer {
+            Toast.makeText(this,it.name,Toast.LENGTH_LONG).show()
         })
     }
 
