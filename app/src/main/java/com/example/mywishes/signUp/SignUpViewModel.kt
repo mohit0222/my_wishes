@@ -12,7 +12,7 @@ const val password_VALIDATION_FAILED = 4
 const val confirm_password_VALIDATION_FAILED = 5
 
 
-class signUpViewModel : ViewModel() {
+class SignUpViewModel : ViewModel() {
 
     private val _validationCompleteSign = MutableLiveData<Boolean>()
     private val _onErrorLiveDataSign = MutableLiveData<Int>()
@@ -21,23 +21,24 @@ class signUpViewModel : ViewModel() {
     val onErrorLiveData: MutableLiveData<Int> = _onErrorLiveDataSign
 
     fun checkValidations(
-        email: String, name: String, password: String, confirmPass: String, number: String
-
+        name: String, email: String, number: String, password: String, confirmPass: String
     ) {
-        if (!ValidationUtils.checkIfEmailIsValid(email)) {
-            _onErrorLiveDataSign.value = Email_VALIDATION_FAILED
-        } else if (!ValidationUtils.isPasswordValid(password)) {
-            _onErrorLiveDataSign.value = password_VALIDATION_FAILED
-        } else if (!ValidationUtils.CheckNameIsValid(name)) {
+        if (!ValidationUtils.CheckNameIsValid(name)) {
             _onErrorLiveDataSign.value = NAME_VALIDATION_FAILED
+        } else if (!ValidationUtils.checkIfEmailIsValid(email)) {
+            _onErrorLiveDataSign.value = Email_VALIDATION_FAILED
         } else if (!ValidationUtils.checkNumberIsValid(number)) {
             _onErrorLiveDataSign.value = phone_VALIDATION_FAILED
-        } else if (!ValidationUtils.checkCPasswordIsValid(confirmPass)) {
+        } else if (!ValidationUtils.isPasswordValid(password)) {
+            _onErrorLiveDataSign.value = password_VALIDATION_FAILED
+        } else if (!ValidationUtils.isPasswordValid(confirmPass)) {
             _onErrorLiveDataSign.value = confirm_password_VALIDATION_FAILED
 
         } else {
             _validationCompleteSign.value = true
         }
     }
+
+
 
 }
