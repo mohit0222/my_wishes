@@ -3,12 +3,18 @@ package com.example.mywishes.login
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mywishes.databinding.ActivityMainBinding
+import com.example.mywishes.preferences.EMAIL
+import com.example.mywishes.preferences.IS_LOGGED_IN
+import com.example.mywishes.preferences.PreferenceUtils
 import com.example.mywishes.signUp.SignUpActivity
+import com.example.mywishes.utilities.gotoHome
+import com.example.mywishes.utilities.setVisiblity
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,17 +43,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-
-            val progress = ProgressDialog(this)
-            progress.setTitle("Loading")
-            progress.setMessage("Wait while loading...")
-            progress.setCancelable(false)
-            progress.show()
-
+            binding.progressView.progressRoot.setVisiblity(true)
             val email = binding.edt1.text.toString()
             val password = binding.edt2.text.toString()
             loginViewModel.checkValidations(email, password)
-            progress.dismiss()
         }
     }
 
@@ -59,6 +58,8 @@ class MainActivity : AppCompatActivity() {
             } else if (it == PASSWORD_VALIDATION_FAILED) {
                 Toast.makeText(this, "Please enter Password", Toast.LENGTH_SHORT).show()
             }
+            binding.progressView.progressRoot.setVisiblity(false)
+
         })
 
         loginViewModel.validationComplete.observe(this, Observer {
@@ -71,7 +72,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         loginViewModel.loginResponse.observe(this, Observer { response ->
+            binding.progressView.progressRoot.setVisiblity(false)
             Toast.makeText(this, response.name, Toast.LENGTH_LONG).show()
+            PreferenceUtils.putString(EMAIL,response.email)
+            PreferenceUtils.putBoolean(IS_LOGGED_IN,true)
+            gotoHome(this)
         })
     }
 
