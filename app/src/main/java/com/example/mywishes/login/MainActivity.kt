@@ -1,5 +1,6 @@
 package com.example.mywishes.login
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -9,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mywishes.databinding.ActivityMainBinding
 import com.example.mywishes.signUp.SignUpActivity
 
+
 class MainActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,10 +35,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
         binding.btnLogin.setOnClickListener {
+
+            val progress = ProgressDialog(this)
+            progress.setTitle("Loading")
+            progress.setMessage("Wait while loading...")
+            progress.setCancelable(false)
+            progress.show()
+
             val email = binding.edt1.text.toString()
             val password = binding.edt2.text.toString()
             loginViewModel.checkValidations(email, password)
+            progress.dismiss()
         }
     }
 
@@ -50,15 +62,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         loginViewModel.validationComplete.observe(this, Observer {
+
             if (it) {
                 val email = binding.edt1.text.toString()
                 val password = binding.edt2.text.toString()
-                loginViewModel?.dologin(email, password)
+                loginViewModel.dologin(email, password)
             }
         })
 
-        loginViewModel.loginResponse.observe(this, Observer {
-            Toast.makeText(this,it.name,Toast.LENGTH_LONG).show()
+        loginViewModel.loginResponse.observe(this, Observer { response ->
+            Toast.makeText(this, response.name, Toast.LENGTH_LONG).show()
         })
     }
 
