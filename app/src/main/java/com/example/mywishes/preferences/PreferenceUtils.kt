@@ -32,4 +32,9 @@ object PreferenceUtils {
     fun getBoolean(key: String, defaultValue: Boolean): Boolean{
         return sharedPreferences.getBoolean(key,defaultValue)
     }
+
+    fun logout(){
+        editor.clear()
+        editor.apply()
+    }
 }

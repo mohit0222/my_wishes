@@ -4,20 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.mywishes.R
 import com.example.mywishes.databinding.SignUpBinding
+import com.example.mywishes.utilities.gotoLogin
+import com.example.mywishes.utilities.showToast
 
 
 class SignUpActivity : AppCompatActivity() {
 
     val pickImage = 100
     var imageUri: Uri? = null
-   lateinit var image :ImageView
+    lateinit var image: ImageView
 
     private lateinit var binding: SignUpBinding
     private lateinit var signUpViewModel: SignUpViewModel
@@ -47,9 +49,9 @@ class SignUpActivity : AppCompatActivity() {
         image = binding.imgView
         val upload = binding.pickImage
 
-        image.setOnClickListener{
+        image.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            startActivityForResult(gallery,pickImage)
+            startActivityForResult(gallery, pickImage)
 
 //        val camera_intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(camera_intent, pickImage)
@@ -57,7 +59,7 @@ class SignUpActivity : AppCompatActivity() {
 
         upload.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            startActivityForResult(gallery,pickImage)
+            startActivityForResult(gallery, pickImage)
         }
     }
 
@@ -80,11 +82,30 @@ class SignUpActivity : AppCompatActivity() {
 
         signUpViewModel.validationComplete.observe(this, Observer {
             if (it) {
-                val intent = Intent(this, SignUpActivity::class.java)
-                startActivity(intent)
+                val name = binding.edtName.text.toString()
+                val number = binding.edtNumber.text.toString()
+                val emailSign = binding.edtEmail.text.toString()
+                val password = binding.edtPassword.text.toString()
+                val confirmPass = binding.edtConfirmpassword.text.toString()
+
+
+                val request = SignUpRequest(
+                    name = name,
+                    email = emailSign,
+                    password = password,
+                    mobile = number,
+                    confirmPassword = confirmPass
+                )
+                signUpViewModel.doSignUp(request)
             }
         })
+
+        signUpViewModel.signUpResponse.observe(this, Observer {
+            showToast(getString(R.string.signup_success_message))
+            gotoLogin(this)
+        })
     }
+
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"

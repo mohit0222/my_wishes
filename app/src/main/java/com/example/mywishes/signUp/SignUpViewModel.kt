@@ -3,7 +3,11 @@ package com.example.mywishes.signUp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mywishes.login.LoginRepo
+import com.example.mywishes.login.LoginResponse
 import com.example.mywishes.utilities.ValidationUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 const val NAME_VALIDATION_FAILED = 1
 const val Email_VALIDATION_FAILED = 2
@@ -13,12 +17,15 @@ const val confirm_password_VALIDATION_FAILED = 5
 
 
 class SignUpViewModel : ViewModel() {
-
+    private val signUpRepo = SignupRepo()
     private val _validationCompleteSign = MutableLiveData<Boolean>()
     private val _onErrorLiveDataSign = MutableLiveData<Int>()
+    private val _signUpResponse = MutableLiveData<SignUpResponse>()
+
 
     val validationComplete: LiveData<Boolean> = _validationCompleteSign
-    val onErrorLiveData: MutableLiveData<Int> = _onErrorLiveDataSign
+    val onErrorLiveData: LiveData<Int> = _onErrorLiveDataSign
+    val signUpResponse: LiveData<SignUpResponse> = _signUpResponse
 
     fun checkValidations(
         name: String, email: String, number: String, password: String, confirmPass: String
@@ -39,6 +46,14 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
+
+
+    fun doSignUp(request: SignUpRequest){
+        GlobalScope.launch {
+            val response = signUpRepo.doRegister(request)
+            _signUpResponse.postValue(response.data)
+        }
+    }
 
 
 }
