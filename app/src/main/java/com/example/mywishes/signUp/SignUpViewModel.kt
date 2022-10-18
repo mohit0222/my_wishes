@@ -3,11 +3,14 @@ package com.example.mywishes.signUp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mywishes.base.BaseViewModel
 import com.example.mywishes.login.LoginRepo
 import com.example.mywishes.login.LoginResponse
+import com.example.mywishes.restApi.ResultWrapper
 import com.example.mywishes.utilities.ValidationUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.File
 
 const val NAME_VALIDATION_FAILED = 1
 const val Email_VALIDATION_FAILED = 2
@@ -16,7 +19,7 @@ const val password_VALIDATION_FAILED = 4
 const val confirm_password_VALIDATION_FAILED = 5
 
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel : BaseViewModel() {
     private val signUpRepo = SignupRepo()
     private val _validationCompleteSign = MutableLiveData<Boolean>()
     private val _onErrorLiveDataSign = MutableLiveData<Int>()
@@ -48,10 +51,14 @@ class SignUpViewModel : ViewModel() {
 
 
 
-    fun doSignUp(request: SignUpRequest){
+    fun doSignUp(request: SignUpRequest, file: File){
         GlobalScope.launch {
-            val response = signUpRepo.doRegister(request)
-            _signUpResponse.postValue(response.data)
+            val response = signUpRepo.doRegister(request,file)
+            if (response is ResultWrapper.Success) {
+                _signUpResponse.postValue(response.response?.data)
+            }else if (response is ResultWrapper.GenericError){
+                errorLiveData.postValue(response.response)
+            }
         }
     }
 
