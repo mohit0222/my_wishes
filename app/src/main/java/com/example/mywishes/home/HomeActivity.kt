@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.example.mywishes.R
 import com.example.mywishes.databinding.ActivityHomeBinding
 import com.example.mywishes.preferences.PreferenceUtils
@@ -40,9 +41,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startNavigationFlow(type: Int?) {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
+        NavigationUI.setupWithNavController(binding.bottomNavigation,navHostFragment.navController)
         val graph: NavGraph = inflater.inflate(R.navigation.nav_bottom_menu_flow)
         when (type) {
             Home.HOME -> graph.setStartDestination(R.id.fragment_home)
