@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/fragment_home"
+    android:id="@+id/nav_bottom_menu_flow">
+
+    <fragment android:id="@+id/fragment_home"
+        android:name="com.example.mywishes.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+    </fragment>
+
+    <fragment android:id="@+id/fragment_profile"
+        android:name="com.example.mywishes.FriendsFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_friends">
+
+    </fragment>
+</navigation>

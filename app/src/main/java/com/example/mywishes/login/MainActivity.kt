@@ -1,28 +1,17 @@
 package com.example.mywishes.login
 
-import android.app.ProgressDialog
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.example.mywishes.base.BaseActivity
-import com.example.mywishes.base.BaseViewModel
 import com.example.mywishes.databinding.ActivityMainBinding
 import com.example.mywishes.preferences.EMAIL
 import com.example.mywishes.preferences.IS_LOGGED_IN
 import com.example.mywishes.preferences.PreferenceUtils
-import com.example.mywishes.restApi.ApiResponse
 import com.example.mywishes.signUp.SignUpActivity
-import com.example.mywishes.signUp.SignUpRequest
-import com.example.mywishes.signUp.SignUpViewModel
 import com.example.mywishes.utilities.getViewModel
 import com.example.mywishes.utilities.gotoHome
-import com.example.mywishes.utilities.setVisiblity
 
 
 class MainActivity : BaseActivity<ActivityMainBinding,LoginViewModel,>() {
@@ -72,6 +61,11 @@ class MainActivity : BaseActivity<ActivityMainBinding,LoginViewModel,>() {
     }
 
     override fun inflateLayout(layoutInflater: LayoutInflater) = ActivityMainBinding.inflate(layoutInflater)
+
+//        binding.txtForgotPassword.setOnClickListener{
+//            val intent = Intent(this, otpActivitySignUp::class.java)
+//            startActivity(intent)
+//        }
 
 
 }

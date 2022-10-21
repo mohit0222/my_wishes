@@ -3,31 +3,21 @@ package com.example.mywishes.base
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
-import android.content.res.Configuration
-import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.example.mywishes.R
-import com.example.mywishes.databinding.ActivityHomeBinding
 import com.example.mywishes.restApi.ApiResponse
-import com.example.mywishes.utilities.showToast
-import java.util.*
-import kotlin.concurrent.thread
 
-abstract class BaseActivity<MyViewBinding: ViewBinding,MyViewModel: BaseViewModel> : AppCompatActivity(), BaseNavigator {
+abstract class BaseActivity<MyViewBinding : ViewBinding, MyViewModel : BaseViewModel> :
+    AppCompatActivity(), BaseNavigator {
 
     lateinit var binding: MyViewBinding
     var viewModel: MyViewModel? = null
@@ -40,8 +30,7 @@ abstract class BaseActivity<MyViewBinding: ViewBinding,MyViewModel: BaseViewMode
 
     abstract fun setObservers()
 
-    abstract fun inflateLayout(layoutInflater: LayoutInflater) : MyViewBinding
-
+    abstract fun inflateLayout(layoutInflater: LayoutInflater): MyViewBinding
 
 
     private val errorObserver = Observer<ApiResponse<*>> {
@@ -73,15 +62,13 @@ abstract class BaseActivity<MyViewBinding: ViewBinding,MyViewModel: BaseViewMode
     }
 
 
-
-
     /**
      * method to handle Api Error Response
      * Override this method to provide class level implementation
      */
     @CallSuper
     protected open fun handleApiErrorResponse(responseModel: ApiResponse<*>?) {
-        if (responseModel?.status == false){
+        if (responseModel?.status == false) {
             showShortToast(responseModel.message)
         }
     }
@@ -131,8 +118,6 @@ abstract class BaseActivity<MyViewBinding: ViewBinding,MyViewModel: BaseViewMode
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
         }
     }
-
-
 
 
     override fun isNetworkAvailable(): Boolean {

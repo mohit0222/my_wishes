@@ -17,8 +17,7 @@ import java.util.concurrent.TimeoutException
 open class BaseRepository {
 
     suspend fun <T> safeApiCall(
-        dispatcher: CoroutineDispatcher = Dispatchers.IO,
-        apiCall: suspend () -> T
+        dispatcher: CoroutineDispatcher = Dispatchers.IO, apiCall: suspend () -> T
     ): ResultWrapper<T?> {
         return withContext(dispatcher) {
             try {
@@ -46,12 +45,7 @@ open class BaseRepository {
             } catch (throwable: Throwable) {
 
                 when (throwable) {
-                    is SocketTimeoutException,
-                    is SocketException,
-                    is ConnectException,
-                    is TimeoutException,
-                    is UnknownHostException
-                    -> {
+                    is SocketTimeoutException, is SocketException, is ConnectException, is TimeoutException, is UnknownHostException -> {
                         val errorResponse = getDefaultErrorObject()
                         ResultWrapper.GenericError(errorResponse)
                     }
