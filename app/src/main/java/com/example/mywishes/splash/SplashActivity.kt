@@ -35,7 +35,8 @@ class SplashActivity : AppCompatActivity() {
             gotoHome(this)
         } else {
             // Go Login
-            gotoLogin(this)
+            gotoHome(this)
+            //gotoLogin(this)
         }
     }
 
