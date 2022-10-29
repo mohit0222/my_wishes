@@ -14,7 +14,7 @@ class HomeFragment : Fragment() {
     private lateinit var mAdapter: MyAdapter
     private lateinit var recyclerView: RecyclerView
 
-    private val mList = ArrayList<Model>()
+    private val mList = ArrayList<Any>()
 
 
 
@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.rvData
 
+        mList.add(Post("Test"))
         mList.add(Model("Mohit","Sunday 22-08-1999"))
         mList.add(Model("viru","Sunday 3-10-1998"))
         mList.add(Model("jimmy","Sunday 5-2-1998"))
